@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    <a class="navbar-brand" href="#">Dealership Review</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/djangoapp/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/djangoapp/about">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/djangoapp/contact">Contact Us</a>
+            </li>
+        </ul>
+
+        {% if user %}
+            <div class="d-flex flex-column flex-md-row align-items-center gap-2">
+                <p class="mb-0"><strong>{{ user }}</strong></p>
+                <a class="btn btn-link" href="/djangoapp/logout" style="width: 100px">Logout</a>
+            </div>            
+        {% else %}
+            <form method="POST" action="/login" class="mt-5 mt-lg-0">
+                <div class="d-flex flex-column flex-md-row align-items-center gap-2">
+                    <input class="form-control" type="text" placeholder="Username">
+                    <input class="form-control" type="password" placeholder="Password">
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-primary" type="submit">Login</button>
+                        <a class="btn btn-link" href="/djangoapp/sign-up" style="width: 100px">Sign-up</a>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</nav>

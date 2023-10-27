@@ -3,8 +3,8 @@
 Returns:
     List: List of reviews for the given dealership
 """
-from cloudant.client import Cloudant
-from cloudant.error import CloudantException
+from ibmcloudant.cloudant_v1 import CloudantV1, Document
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 import requests
 
 
@@ -17,19 +17,49 @@ def main(param_dict):
     Returns:
         _type_: _description_ TODO
     """
-
+    
     try:
-        client = Cloudant.iam(
-            account_name=param_dict["COUCH_USERNAME"],
-            api_key=param_dict["IAM_API_KEY"],
-            connect=True,
-        )
-        print(f"Databases: {client.all_dbs()}")
-    except CloudantException as cloudant_exception:
-        print("unable to connect")
-        return {"error": cloudant_exception}
-    except (requests.exceptions.RequestException, ConnectionResetError) as err:
-        print("connection error")
-        return {"error": err}
-
-    return {"dbs": client.all_dbs()}
+        print(param_dict["dealerId"])
+        
+        if param_dict['__ow_method'] == 'get':
+            reviews = []
+        
+            try:
+                authenticator = IAMAuthenticator(param_dict["IAM_API_KEY"])
+                service = CloudantV1(authenticator=authenticator)
+                service.set_service_url(param_dict["COUCH_URL"])
+                
+                dealerId = None
+                
+                try:
+                    dealerId = param_dict["dealerId"]
+                except:
+                    pass
+                
+                if dealerId is None:
+                    return { 
+                        "statusCode": 404, 
+                        "body": "DealerId not found." 
+                    }
+                
+                    
+                response = service.post_find(
+                  db='reviews',
+                  selector={'dealership': int(dealerId)}
+                ).get_result()
+                
+                for doc in response["docs"]:
+                    del doc["_id"]
+                    del doc["_rev"]
+                    reviews.append(doc)
+            except Exception as err:
+                return {"body": "Connection error", "statusCode": 500}
+        
+            return {"body": reviews}
+            
+        if param_dict['__ow_method'] == 'post':
+            return {"body": "Pending implementation", "statusCode": 503}
+            
+        return {"body": "Invalid request", "statusCode": 401}
+    except:
+        return {"body": "Internal error", "statusCode": 500}

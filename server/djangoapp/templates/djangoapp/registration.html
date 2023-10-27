@@ -4,9 +4,46 @@
     <meta charset="UTF-8">
     {% load static %}
     <title>Dealership Review</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    <link href="/djangoapp/media/main.css" rel="stylesheet">
 </head>
     <body>
-    <!--Add a registration form here -->
+        {% include "djangoapp/components/navbar.html" %}
+
+        <main role="main" class="container d-flex flex-column align-items-center justify-content-center">
+            <form class="form-signup" method="POST">
+                {% csrf_token %}
+                <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
+
+                {% if error is not None %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+                {% endif %}
+                
+                <label for="inputUsername" class="sr-only">Username</label>
+                <input type="text" id="inputUsername" class="form-control" placeholder="Enter Username" name="username" required="" autofocus="">
+               
+                <label for="inputFirstName" class="sr-only">First Name</label>
+                <input type="text" id="inputFirstName" class="form-control" placeholder="Enter First Name" name="firstname" required="">
+                
+                <label for="inputLastName" class="sr-only">Last Name</label>
+                <input type="text" id="inputLastName" class="form-control" placeholder="Enter Last Name" name="lastname" required="">
+                
+                
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Enter Password" name="password" required="">
+                
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+            </form>
+        </main>
+
+        {% include "djangoapp/components/footer.html" %}
     </body>
 </html>

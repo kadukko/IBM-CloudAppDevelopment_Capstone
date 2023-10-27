@@ -13,7 +13,7 @@ urlpatterns = [
 
     path(route='contact', view=views.contact, name='contact'),
 
-    # path for registration
+    path(route='sign-up', view=views.registration_request, name='sign-up'),
 
     path(route='login', view=views.login_request, name='login'),
 

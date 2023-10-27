@@ -21,13 +21,9 @@
                 {% csrf_token %}
                 <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-                {% if error %}
+                {% if error is not None %}
                 <div class="alert alert-danger" role="alert">
-                    {% if error == 'INVALID_LOGIN' %}
-                        Login invalid
-                    {% elif error == 'LOGIN_FAILED' %}
-                        Login failed
-                    {% endif %}
+                    {{ error }}
                 </div>
                 {% endif %}
                 

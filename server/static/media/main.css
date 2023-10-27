@@ -2,7 +2,7 @@ main {
     min-height: calc(100vh - 160px);
 }
 
-.form-signin {
+.form-signin, .form-signup {
     width: 100%;
     max-width: 300px;
     margin: auto;

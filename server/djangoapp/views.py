@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
 # from .restapis import related methods
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import User
 from django.contrib import messages
 from datetime import datetime
 import logging
@@ -40,7 +41,7 @@ def login_request(request):
 
     if request.method == 'POST':
         try:
-            username = request.POST['username']
+            username = request.POST['username'].lower()
             password = request.POST['password']
             user = authenticate(request, username=username, password=password)
             if user is not None:
@@ -62,8 +63,40 @@ def logout_request(request):
     return redirect('/djangoapp')    
 
 # Create a `registration_request` view to handle sign up request
-# def registration_request(request):
-# ...
+def registration_request(request):
+    error = None
+
+    if request.method == 'POST':
+        try:
+            username = request.POST['username'].lower()
+            firstname = request.POST['firstname']
+            lastname = request.POST['lastname']
+            password = request.POST['password']
+
+            try:
+                user_exists = User.objects.get(username=username)
+
+                if user_exists:
+                    error = 'USERNAME_IN_USE'
+                    raise Exception("USERNAME_IN_USE")
+            except:
+                pass
+
+            user = User.objects.create_user(username, "", password)
+            user.first_name = firstname
+            user.last_name = lastname
+            user.save()
+
+            if user is not None:
+                login(request, user)
+                return redirect('/djangoapp')
+        except Exception as e:
+            print(e)
+            if error is None:
+                error = 'REGISTER_FAILED'
+
+    context = { "error": error }
+    return render(request, 'djangoapp/registration.html', context)
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):

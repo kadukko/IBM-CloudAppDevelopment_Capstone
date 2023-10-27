@@ -15,34 +15,39 @@
 </head>
 
     <body>
-        
-        <!--Add a nav bar here -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
             <a class="navbar-brand" href="#">Dealership Review</a>
-
+    
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/djangoapp/">Home <span class="sr-only">(current)</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/djangoapp">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/djangoapp/about">About Us</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/djangoapp/contact">Contact Us</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/djangoapp/contact">Contact Us <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
             </div>
         </nav>
 
-        <main role="main" class="container">
-            <!--Add a dealer table here -->
-        </main>
+        <main role="main" class="container d-flex flex-column align-items-center justify-content-center">
+            <h1 class="text-center mb-5">
+                Contact Us
+            </h1>
 
+            <p>
+                <strong>Address:</strong> Company's street, 123<br/>
+                <strong>Phone:</strong> 1-000-000-000<br/>
+                <strong>E-mail:</strong> contact@company.com<br/>                
+            </p>
+        </main>
 
         <footer class="d-flex align-items-center justify-content-space-between mt-3 p-3 bg-dark text-light">
             <p class="flex-fill mb-0">Copyright @ 2023 All Rights Reserved</p>

@@ -27,9 +27,9 @@ def create_dealer_obj(data):
                     short_name=data["short_name"], st=data["st"], zip=data["zip"])
 
 def create_dealer_review_obj(data):
-    return DealerReview(id=review["_id"], name=review["name"], dealership=review["dealership"],
-                        review=review["review"], purchase=review["purchase"], purchase_date=review.get("purchase_date", None),
-                        car_maker=review.get("car_maker", None), car_model=review.get("car_model", None), car_year=review.get("car_year", None))
+    return DealerReview(id=data["_id"], name=data["name"], dealership=data["dealership"],
+                        review=data["review"], purchase=data["purchase"], purchase_date=data.get("purchase_date", None),
+                        car_maker=data.get("car_maker", None), car_model=data.get("car_model", None), car_year=data.get("car_year", None))
 
 def get_dealers_from_cf(url, **kwargs):
     results = []

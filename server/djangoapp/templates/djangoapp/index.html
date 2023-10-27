@@ -18,8 +18,28 @@
         <!--Add a nav bar here -->
         {% include "djangoapp/components/navbar.html" %}
 
-        <main role="main" class="container">
-            <!--Add a dealer table here -->
+        <main role="main" class="container d-flex flex-column align-items-center justify-content-center">
+            <h1 class="mb-5">Dealerships</h1>
+
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Handle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for dealership in dealerships %}
+                  <tr>
+                    <th scope="row">{{ dealership.id }}</th>
+                    <td>{{ dealership.full_name }}</td>
+                    <td>{{ dealership.address }}, {{ dealership.city }} - {{ dealership.st }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
         </main>
 
         {% include "djangoapp/components/footer.html" %}

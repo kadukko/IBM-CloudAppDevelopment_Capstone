@@ -5,14 +5,56 @@
     {% load static %}
     <title>Dealership Review</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    <link href="/djangoapp/media/main.css" rel="stylesheet">
 </head>
-
     <body>
+        
+        <!--Add a nav bar here -->
+        {% include "djangoapp/components/navbar.html" %}
 
-    <!--Add a nav bar here -->
+        <main role="main" class="container d-flex flex-column align-items-center justify-content-center">
+            <h1 class="mb-5">Dealership: {{ dealership.full_name }}</h1>
+        
+            <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th scope="row">ID</th>
+                    <td>{{ dealership.id }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Short Name</th>
+                    <td>{{ dealership.short_name }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Address</th>
+                    <td>{{ dealership.address }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Zip code</th>
+                    <td>{{ dealership.zip }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">City</th>
+                    <td>{{ dealership.city }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">State</th>
+                    <td>{{ dealership.st }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Coordinates</th>
+                    <td>{{ dealership.lat }}, {{ dealership.long }}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </main>
 
-    <!-- Add reviews as cards -->
-
+        {% include "djangoapp/components/footer.html" %}
     </body>
-
 </html>

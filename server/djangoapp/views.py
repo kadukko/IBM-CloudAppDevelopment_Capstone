@@ -122,7 +122,8 @@ def get_dealer_details(request, dealer_id):
         url = "https://us-south.functions.appdomain.cloud/api/v1/web/965a5017-3109-4e6f-af1f-3388fd303def/dealership-package/get-reviews"
         reviews = get_dealer_reviews_from_cf(url, dealer_id=dealer_id)
         context['reviews'] = reviews
-    except:
+    except Exception as e:
+        print(e)
         return redirect('/djangoapp')
 
     return render(request, 'djangoapp/dealer_details.html', context)

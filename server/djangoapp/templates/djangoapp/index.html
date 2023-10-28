@@ -36,6 +36,7 @@
                     <th scope="row">{{ dealership.id }}</th>
                     <td>{{ dealership.full_name }}</td>
                     <td>{{ dealership.address }}, {{ dealership.city }} - {{ dealership.st }}</td>
+                    <td><a href="/djangoapp/dealer/{{ dealership.id }}">Details</td>
                   </tr>
                 {% endfor %}
                 </tbody>

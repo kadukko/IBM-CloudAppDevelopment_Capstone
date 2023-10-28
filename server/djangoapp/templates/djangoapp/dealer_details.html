@@ -58,7 +58,7 @@
               <h2 class="mb-5">Reviews</h2>
   
               {% for review in reviews %}
-                  <p><strong>{{review.name}}</strong>: {{review.review}}</p>
+                  <p>[{{review.sentiment}}] <strong>{{review.name}}</strong>: {{review.review}}</p>
               {% endfor %}
             </section>
 

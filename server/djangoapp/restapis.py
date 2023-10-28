@@ -38,7 +38,7 @@ def create_dealer_obj(data):
 def create_dealer_review_obj(data):
     return DealerReview(id=data["_id"], name=data["name"], dealership=data["dealership"],
                         review=data["review"], purchase=data["purchase"], purchase_date=data.get("purchase_date", None),
-                        car_maker=data.get("car_maker", None), car_model=data.get("car_model", None), car_year=data.get("car_year", None),
+                        car_make=data.get("car_make", None), car_model=data.get("car_model", None), car_year=data.get("car_year", None),
                         sentiment=data.get("sentiment", None))
 
 def get_dealers_from_cf(url, **kwargs):
@@ -68,8 +68,6 @@ def get_dealer_by_state_from_cf(url, state):
     return results
 
 def get_dealer_by_id(url, id):
-    results = []
-
     params = { "id": id }
 
     headers = {'Content-Type': 'application/json'}
@@ -117,9 +115,8 @@ def analyze_review_sentiments(text):
     headers = {'Content-Type': 'application/json'}
 
     api_key = os.environ.get('SLU_API_KEY', None)
-    print(api_key)
     
-    sentiment = None
+    sentiment = 'neutral'
 
     try:
         response = get_request(url, params=params, headers=headers, auth=HTTPBasicAuth('apikey', api_key))

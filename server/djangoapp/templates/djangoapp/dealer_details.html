@@ -19,64 +19,98 @@
         {% include "djangoapp/components/navbar.html" %}
 
         <main role="main" class="container d-flex flex-column align-items-center justify-content-center">
-            <h1 class="mb-5">Dealership: {{ dealership.full_name }}</h1>
-        
-            <table class="table table-bordered">
-                <tbody>
-                  <tr>
-                    <th scope="row">ID</th>
-                    <td>{{ dealership.id }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Short Name</th>
-                    <td>{{ dealership.short_name }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Address</th>
-                    <td>{{ dealership.address }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Zip code</th>
-                    <td>{{ dealership.zip }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">City</th>
-                    <td>{{ dealership.city }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">State</th>
-                    <td>{{ dealership.st }}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Coordinates</th>
-                    <td>{{ dealership.lat }}, {{ dealership.long }}</td>
-                  </tr>
-                </tbody>
-            </table>
-            
-            <section>
-              <h2 class="mb-5">Reviews</h2>
+            <h1 class="mb-5">Reviews for {{ dealership.full_name }}</h1>
   
-              {% for review in reviews %}
-                  <p>[{{review.sentiment}}] <strong>{{review.name}}</strong>: {{review.review}}</p>
-              {% endfor %}
-            </section>
-
-            <section>
-              <form class="form-addreview" method="post" action="/djangoapp/dealer/{{ dealership.id }}/add-review">
-                {% csrf_token %}
-                <h2>Add a review about {{ dealership.short_name }}</h2>
-
-                <div class="form-group">
-                  <label for="inputReview" class="sr-only">Review content</label>
-                  <textarea id="inputReview" class="form-control" placeholder="Enter your review" name="review" required="" autofocus=""></textarea>
+            <div class="row mb-5" style="row-gap: 1rem">
+              {% for review in reviews %}  
+                <div class="col-md-6 col-lg-4">
+                  <div class="card h-100 w-100" style="width: 18rem;">
+                    {% if review.sentiment == 'positive' %}
+                      <img src="{{MEDIA_URL}}/emoji/positive.png" class="card-img-top"alt="Positive sentiment" style="width: 30px; margin-left: 1.25rem; margin-top: 1.25rem">
+                    {% elif review.sentiment == 'neutral' %}
+                      <img src="{{MEDIA_URL}}/emoji/neutral.png" class="card-img-top"alt="Neutral sentiment" style="width: 30px; margin-left: 1.25rem; margin-top: 1.25rem">
+                    {% elif review.sentiment == 'negative' %}
+                      <img src="{{MEDIA_URL}}/emoji/negative.png" class="card-img-top"alt="Negative sentiment" style="width: 30px; margin-left: 1.25rem; margin-top: 1.25rem">
+                    {% endif %}
+                    <div class="card-body">
+                      {% if review.car_model %}
+                        <h5 class="card-title">{{ review.car_make }}, {{ review.car_model }} <br/> {{ review.car_year }}</h5>
+                      {% endif %}
+                      <p class="card-text">{{review.review}}</p>
+                    </div>
+                  </div>
                 </div>
+                {% endfor %}
+            </div>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
-              </form>
+            <section class="w-100 mb-5">
+              {% if user.is_authenticated %}
+                <form class="form-addreview" method="post" action="/djangoapp/dealer/{{ dealership.id }}/add-review">
+                  {% csrf_token %}
+                  <h2 class="text-center mb-3">Add a review about {{ dealership.short_name }}</h2>
+
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="inputReview">Enter the review content</label>
+                    <textarea id="inputReview" class="form-control" placeholder="Enter your review" name="review" required="" autofocus=""></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="purchase" id="purchaseCheckbox">
+                      <label class="form-check-label" for="defaultCheck1">
+                        Has purchase a car from {{ dealership.short_name }}?
+                      </label>
+                    </div>
+                  </div>
+
+                  <div id="purchaseFields" style="display: none">
+                    <div class="form-group">
+                      <label class="font-weight-bold" for="inputCarModel">Select your car model *</label>
+                      <select id="inputCarModel" class="form-control" name="car_model">
+                        <option selected>Choose...</option>
+                        {% for car_model in car_models %}
+                          <option value="{{ car_model.id }}">{{ car_model.car_maker.name }} - {{ car_model.name }} - {{ car_model.year.year }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="font-weight-bold" for="inputPurchaseDate">Select your purchase date *</label>
+                      <input type="date" id="inputPurchaseDate" class="form-control" name="purchase_date">
+                    </div>
+                  </div>
+
+                  <button class="btn btn-lg btn-primary" type="submit">Submit</button>
+                </form>
+              {% else %}
+                <div class="alert alert-info" role="alert">
+                  You must be logged in to post a comment.
+                </div>
+              {% endif %}
             </section>
         </main>
 
         {% include "djangoapp/components/footer.html" %}
+
+        <script>
+          const purchaseField = document.getElementById('purchaseCheckbox')
+          const purchaseFields = document.getElementById('purchaseFields')
+          const carModelField = document.getElementById('inputCarModel')
+          const purchaseDateField = document.getElementById('inputPurchaseDate')
+          
+          purchaseField.onchange = function(e) {
+            
+            
+            if (e.target.checked) {
+              purchaseFields.style.display = 'block'
+              carModelField.setAttribute('required', '')
+              purchaseDateField.setAttribute('required', '')
+            } else {
+              purchaseFields.style.display = 'none'
+              carModelField.removeAttribute('required')
+              purchaseDateField.removeAttribute('required')
+            }
+          }
+        </script>
     </body>
 </html>

@@ -54,11 +54,27 @@
                 </tbody>
             </table>
             
-            <h2 class="mb-5">Reviews</h2>
+            <section>
+              <h2 class="mb-5">Reviews</h2>
+  
+              {% for review in reviews %}
+                  <p><strong>{{review.name}}</strong>: {{review.review}}</p>
+              {% endfor %}
+            </section>
 
-            {% for review in reviews %}
-                <p><strong>{{review.name}}</strong>: {{review.review}}</p>
-            {% endfor %}
+            <section>
+              <form class="form-addreview" method="post" action="/djangoapp/dealer/{{ dealership.id }}/add-review">
+                {% csrf_token %}
+                <h2>Add a review about {{ dealership.short_name }}</h2>
+
+                <div class="form-group">
+                  <label for="inputReview" class="sr-only">Review content</label>
+                  <textarea id="inputReview" class="form-control" placeholder="Enter your review" name="review" required="" autofocus=""></textarea>
+                </div>
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+              </form>
+            </section>
         </main>
 
         {% include "djangoapp/components/footer.html" %}

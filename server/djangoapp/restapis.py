@@ -18,8 +18,17 @@ def get_request(url, params={}, headers={}, auth=None):
     return json_data
 
 
-# Create a `post_request` to make HTTP POST requests
-# e.g., response = requests.post(url, params=kwargs, json=payload)
+def post_request(url, params={}, data={}, headers={}, auth=None):
+    print("POST from {} ".format(url))
+    try:
+        response = requests.post(url, params=params, data=json.dumps(data), headers=headers, auth=auth)
+    except:
+        # If any error occurs
+        print("Network exception occurred")
+    status_code = response.status_code
+    print("With status {} ".format(status_code))
+    json_data = json.loads(response.text)
+    return json_data
 
 def create_dealer_obj(data):
     return CarDealer(address=data["address"], city=data["city"], full_name=data["full_name"],
@@ -99,6 +108,10 @@ def analyze_review_sentiments(text):
     api_key = os.environ['SLU_API_KEY']
 
     response = get_request(url, params=params, headers=headers, auth=HTTPBasicAuth('apikey', api_key))
+    print(response)
 
+    return None
 
-
+def post_dealer_review(url, data):
+    headers = {'Content-Type': 'application/json'}
+    return post_request(url, data=data, headers=headers)

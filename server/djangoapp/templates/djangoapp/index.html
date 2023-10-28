@@ -21,28 +21,42 @@
         <main role="main" class="container d-flex flex-column align-items-center justify-content-center">
             <h1 class="mb-5">Dealerships</h1>
 
-            <table class="table">
+            <div class="table-container w-100">
+            <table class="table" id="table" data-filter-control="true">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Handle</th>
+                    <th data-field="id" scope="col">#</th>
+                    <th data-field="full_name" scope="col">Full Name</th>
+                    <th data-field="city" scope="col">City</th>
+                    <th data-field="address" scope="col">Address</th>
+                    <th data-field="zip" scope="col">Zip</th>
+                    <th data-field="st" scope="col" data-filter-control="select">State</th>
                   </tr>
                 </thead>
                 <tbody>
                 {% for dealership in dealerships %}
                   <tr>
                     <th scope="row">{{ dealership.id }}</th>
-                    <td>{{ dealership.full_name }}</td>
-                    <td>{{ dealership.address }}, {{ dealership.city }} - {{ dealership.st }}</td>
-                    <td><a href="/djangoapp/dealer/{{ dealership.id }}">Details</td>
+                    <td><a href="{% url 'djangoapp:dealer_details' dealership.id %}">{{ dealership.full_name }}</a></td>
+                    <td>{{ dealership.city }}</td>
+                    <td>{{ dealership.address }}</td>
+                    <td>{{ dealership.zip }}</td>
+                    <td>{{ dealership.st }}</td>
                   </tr>
                 {% endfor %}
                 </tbody>
               </table>
+            </div>
         </main>
 
         {% include "djangoapp/components/footer.html" %}
+
+        <script>
+          $(function() {
+            $('#table').bootstrapTable({
+              paging: false
+            })
+          })
+        </script>
     </body>
 </html>

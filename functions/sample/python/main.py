@@ -73,5 +73,5 @@ def main(param_dict):
             return { "body": response }
             
         return {"body": "Invalid request", "statusCode": 400}
-    except:
+    except Exception as e:
         return {"body": "Internal error", "statusCode": 500}

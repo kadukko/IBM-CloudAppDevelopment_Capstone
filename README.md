@@ -40,3 +40,10 @@ You must complete all the labs to successfully complete the project.
 ```SLU_API_KEY="Your_SLU_key"```
 
 Required to show sentiment emoji (positive, neutral and negative) in dealer review.
+
+## DJango Admin Credentials
+
+```
+username="root"
+password="root"
+```

@@ -34,3 +34,9 @@ You must complete all the labs to successfully complete the project.
 **Containerize your application**
 1. Add deployment artifacts to your application
 2. Deploy your application
+
+## Environment Variables
+
+```SLU_API_KEY="Your_SLU_key"```
+
+Required to show sentiment emoji (positive, neutral and negative) in dealer review.

@@ -41,9 +41,18 @@ You must complete all the labs to successfully complete the project.
 
 Required to show sentiment emoji (positive, neutral and negative) in dealer review.
 
-## DJango Admin Credentials
+## Django Admin Credentials
 
 ```
 username="root"
 password="root"
 ```
+
+## Setting serviceless functions
+
+The functions URL is hardcoded in the Django application view, the code example is located in "/functions/sample"
+
+Node.js to get dealer information
+Python to get dealer reviews
+
+Use "cloudant/data" to populate Dealership and Reviews databases (IBM Cloudant).
